@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rearrange Sentences Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .instructions {
+      margin-bottom: 20px;
+    }
+    .sentence-box {
+      margin-bottom: 15px;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Rearrange Sentences Quiz</h2>
+  <div class="instructions">
+    Rearrange the jumbled words below into a coherent, formal sentence. Type your answer in the blank space provided.
+  </div>
+
+  <!-- Error Message -->
+  <div class="error" id="error-message" style="display: none;">Please fill in all the answers before submitting.</div>
+
+  <!-- Sentence Inputs -->
+  <div id="quiz-container"></div>
+
+  <!-- Submit Button -->
+  <button onclick="checkAnswers()">Submit All Answers</button>
+
+  <!-- Feedback Section -->
+  <div class="feedback" id="feedback"></div>
+
+  <script>
+    // Correct Answers and Jumbled Words
+    const sentences = [
+      { jumbled: "possible / I / inquire / if / it / to / is / would / like / .", correct: "I would like to inquire if it is possible." },
+      { jumbled: "attached / please / find / documents / the / requested / .", correct: "Please find attached the requested documents." },
+      { jumbled: "let / know / further / require / please / me / if / you / information / .", correct: "Please let me know if you require further information." },
+      { jumbled: "apologize / the / inconvenience / for / caused / I / .", correct: "I apologize for the inconvenience caused." },
+      { jumbled: "this / matter / your / kind / assistance / with / appreciate / I / would / .", correct: "I would appreciate your kind assistance with this matter." },
+      { jumbled: "update / status / could / the / you / on / project / me / the / ?", correct: "Could you update me on the status of the project?" },
+      { jumbled: "inform / we / are / that / regret / unable / to / I / you / .", correct: "I regret to inform you that we are unable." },
+      { jumbled: "forward / I / look / from / you / to / hearing / .", correct: "I look forward to hearing from you." },
+      { jumbled: "inconvenience / hope / the / understand / caused / I / you / .", correct: "I hope you understand the inconvenience caused." },
+      { jumbled: "could / arrange / time / a / meeting / to / we / convenient / discuss / further / details / ?", correct: "Could we arrange a convenient time to meet and discuss further details?" },
+      { jumbled: "assistance / providing / me / much / you / thank / for / .", correct: "Thank you for providing me much assistance." },
+      { jumbled: "more / details / you / if / have / any / please / contact / questions / me / .", correct: "If you have any more questions or details, please contact me." },
+      { jumbled: "requested / unfortunately / unable / I / provide / am / to / the / documents / .", correct: "Unfortunately, I am unable to provide the requested documents." },
+      { jumbled: "could / matter / kindly / look / into / this / you / ?", correct: "Could you kindly look into this matter?" },
+      { jumbled: "confirm / you / me / could / the / date / ?", correct: "Could you confirm the date with me?" },
+      { jumbled: "appreciate / support / your / I / assistance / and / greatly / .", correct: "I greatly appreciate your support and assistance." },
+      { jumbled: "will / your / response / look / forward / to / I / .", correct: "I will look forward to your response." },
+      { jumbled: "inform / you / happy / we / are / proceed / to / .", correct: "We are happy to inform you to proceed." },
+      { jumbled: "document / in / review / please / find / attached / for / your / the / .", correct: "Please find attached the document for your review." },
+      { jumbled: "resolve / appreciate / issue / this / your / efforts / we / to / .", correct: "We appreciate your efforts to resolve this issue." }
+    ];
+
+    // Dynamically Generate Input Fields
+    const quizContainer = document.getElementById("quiz-container");
+    sentences.forEach((sentence, index) => {
+      const sentenceBox = document.createElement("div");
+      sentenceBox.className = "sentence-box";
+      sentenceBox.innerHTML = `
+        <p><strong>${index + 1}.</strong> ${sentence.jumbled}</p>
+        <input type="text" id="sentence-${index}" placeholder="Type your answer here">
+      `;
+      quizContainer.appendChild(sentenceBox);
+    });
+
+    // Function to Check Answers
+    function checkAnswers() {
+      const errorDiv = document.getElementById("error-message");
+      const feedbackDiv = document.getElementById("feedback");
+
+      // Reset feedback and error messages
+      feedbackDiv.innerHTML = "";
+      errorDiv.style.display = "none";
+
+      // Check if all fields are filled
+      let allFilled = true;
+      sentences.forEach((_, index) => {
+        const userAnswer = document.getElementById(`sentence-${index}`).value.trim();
+        if (!userAnswer) {
+          allFilled = false;
+        }
+      });
+
+      // If not all fields are filled, show error message
+      if (!allFilled) {
+        errorDiv.style.display = "block";
+        return;
+      }
+
+      // Calculate correct answers
+      let correctCount = 0;
+      sentences.forEach((sentence, index) => {
+        const userAnswer = document.getElementById(`sentence-${index}`).value.trim();
+        if (userAnswer === sentence.correct) {
+          correctCount++;
+        }
+      });
+
+      // Display feedback
+      feedbackDiv.innerHTML = `You got ${correctCount} out of ${sentences.length} sentences correct.`;
+      feedbackDiv.style.color = correctCount === sentences.length ? "green" : "red";
+    }
+  </script>
+</body>
+</html>
